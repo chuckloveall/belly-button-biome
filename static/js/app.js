@@ -1,6 +1,9 @@
+// starter code
 let data = d3.json('samples.json').then(data => {
     console.log(data);
 });
+//set default data to display on page load
+//TODO: change default to something from the data
 const defaultData = [1,2,3,4,5];
 function init() {
   data2 = [{
@@ -23,7 +26,8 @@ function updatePlotly() {
   // Initialize x and y arrays
   let x = [];
   let y = [];
-
+// switch from dataset
+// TODO: change dataset and nest loop index
   switch(dataset) {
     case "dataset1":
       x = [1, 2, 3, 4, 5];
@@ -51,7 +55,8 @@ function updatePlotly() {
   Plotly.restyle(chart, "x", [x]);
   Plotly.restyle(chart, "y", [y]);
 };
-
+// Gage section
+// TODO: translate from weather example to this dataset
 // populate the empty select element with dropdown options for forecast days
 let select = d3.select("#")
 data.daily.forEach(day => {
@@ -98,4 +103,5 @@ init(dateData);
 // initialize the plot with the first entry in the daily forecast data
 init(data.daily[0]);
 });
+// run init function on page load 
 init();
