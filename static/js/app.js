@@ -9,16 +9,31 @@ d3.json('samples.json').then(data => {
     // console.log(defaultData);
     let names = data.names;
     console.log(names);
+    // populate dropdown Menu
+    var select = document.getElementById("selDataset");
+
+    for(var i = 0; i < names.length; i++) {
+        var opt = names[i];
+        var el = document.createElement("option");
+        el.textContent = opt;
+        el.value = opt;
+        select.appendChild(el)};
 
     function init() {
+        let x = data.samples[0].otu_ids.map(d => `OTU ID ${d}`).slice(0,10).sort((a, b) => a-b);
       data2 = [{
-        x: names,
-        y: data.sample_values
+        type: 'bar',
+        y: x,
+        x: data.samples[0].sample_values.slice(0,10).sort((a, b) => a-b),
+        orientation: 'h',
+        text: data.samples[0].otu_labels.slice(0,10).sort((a,b) => a-b)
       }];
-      let chart = d3.selectAll("#well").node();
+        console.log(x);
+      let chart = d3.selectAll("#bar").node();
 
-      Plotly.newPlot(bar, data2);
+      Plotly.newPlot(chart, data2);
     };
+
     // This function is called when a dropdown menu item is selected
     function updatePlotly() {
       // Prevent the page from refreshing
@@ -30,7 +45,6 @@ d3.json('samples.json').then(data => {
       let d3set= d3.event.target.value;
       console.log(d3set);
       console.log(dataset);
-      let bar = d3.selectAll("#bar").node();
       let bubble= d3.selectAll("#bubble").node();
 
       // Initialize x and y arrays
@@ -60,13 +74,13 @@ d3.json('samples.json').then(data => {
           break;
       }
 
-
+      // function optionChanged (this.value)
       // Note the extra brackets around 'x' and 'y'
       Plotly.restyle('plot', "x", [x]);
       Plotly.restyle('plot', "y", [y]);
     };
 
 
-    d3.select('#selDataset').on("change", updatePlotly)
+
     init();
 });
