@@ -1,4 +1,15 @@
+//define functions outside of .then
+//init() {}
+//optionChanged(value) {}
+// updatecharts(data, value){}
+
+//use d3.json.then
+// init(data)
+// updatecharts(data,value)
+//allows you access to data outside of scope
+
 // starter code
+
 d3.json('samples.json').then(data => {
     // console.log(data);
 
@@ -47,56 +58,59 @@ d3.json('samples.json').then(data => {
         size: sample_val
     }
     }];
-    console.log(x);
-    console.log(sample_val);
-    console.log(otu);
+    // console.log(x);
+    // console.log(sample_val);
+    // console.log(otu);
     Plotly.newPlot('bubble', trace1);
     };
 
     // This function is called when a dropdown menu item is selected
-    function optionChanged() {
+    function optionChanged(somedata) {
+        console.log(somedata)
       // Prevent the page from refreshing
       d3.event.preventDefault();
       // Use D3 to select the dropdown menu
       let dropdownMenu = d3.select("#selDataset");
       // Assign the value of the dropdown menu option to a variable
+      let opt = document.getElementById("selDataset").value;
+      console.log(opt);
       let dataset = dropdownMenu.node();
       let d3set= d3.event.target.value;
       console.log(d3set);
       console.log(dataset);
       let bubble= d3.selectAll("#bubble").node();
-
-      // Initialize x and y arrays
-      let x = [];
-      let y = [];
-    // switch from dataset
-    // TODO: change dataset and nest loop index
-      switch(dataset) {
-        case "dataset1":
-            x= dataset1.x;
-            y= dataset1.y;
-          break;
-
-        case "dataset2":
-        x= dataset2.x;
-        y= dataset2.y;
-          break;
-
-        case "dataset3":
-        x= dataset3.x;
-        y= dataset3.y;
-          break;
-
-        default:
-          x = defaultData;
-          y = defaultData;
-          break;
-      }
+      console.log(bubble);
+    //   // Initialize x and y arrays
+    //   let t = [];
+    //   let y = [];
+    // // switch from dataset
+    // // TODO: change dataset and nest loop index
+    //   switch(dataset) {
+    //     case "dataset1":
+    //         t= dataset1.x;
+    //         y= dataset1.y;
+    //       break;
+    //
+    //     case "dataset2":
+    //     t= dataset2.x;
+    //     y= dataset2.y;
+    //       break;
+    //
+    //     case "dataset3":
+    //     t= dataset3.x;
+    //     y= dataset3.y;
+    //       break;
+    //
+    //     default:
+    //       t = defaultData;
+    //       y = defaultData;
+    //       break;
+      // }
 
       // function optionChanged (this.value)
       // Note the extra brackets around 'x' and 'y'
-      Plotly.restyle('plot', "x", [x]);
-      Plotly.restyle('plot', "y", [y]);
+      // Plotly.restyle('plot', "x", [x]);
+      // Plotly.restyle('plot', "y", [y]);
     };
 
 
