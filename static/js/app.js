@@ -1,6 +1,6 @@
 // starter code
 d3.json('samples.json').then(data => {
-    console.log(data);
+    // console.log(data);
 
 
     //set default data to display on page load
@@ -8,7 +8,7 @@ d3.json('samples.json').then(data => {
     // const defaultData = data;
     // console.log(defaultData);
     let names = data.names;
-    console.log(names);
+    // console.log(names);
     // populate dropdown Menu
     var select = document.getElementById("selDataset");
 
@@ -18,7 +18,7 @@ d3.json('samples.json').then(data => {
         el.textContent = opt;
         el.value = opt;
         select.appendChild(el)};
-
+    // add default graph on page load
     function init() {
         let x = data.samples[0].otu_ids.map(d => `OTU ID ${d}`).slice(0,10).sort((a, b) => a-b);
       data2 = [{
@@ -28,14 +28,33 @@ d3.json('samples.json').then(data => {
         orientation: 'h',
         text: data.samples[0].otu_labels.slice(0,10).sort((a,b) => a-b)
       }];
-        console.log(x);
+        // console.log(x);
       let chart = d3.selectAll("#bar").node();
 
       Plotly.newPlot(chart, data2);
+      var trace1 = [{
+      x: x,
+      y: data.samples[0].sample_values.slice(0,10).sort((a, b) => a-b),
+      text: data.samples[0].otu_labels.slice(0,10).sort((a,b) => a-b),
+      mode: 'markers',
+      marker: {
+        color: [data.samples[0].otu_ids.slice(0,10).sort((a,b) => a-b)],
+        size: [40, 60, 80, 100]
+    }
+    }];
+
+    var layout = {
+      title: 'Bubble Chart Hover Text',
+      showlegend: false,
+      height: 600,
+      width: 600
+    };
+
+    Plotly.newPlot('bubble', trace1, layout);
     };
 
     // This function is called when a dropdown menu item is selected
-    function updatePlotly() {
+    function optionChanged() {
       // Prevent the page from refreshing
       d3.event.preventDefault();
       // Use D3 to select the dropdown menu
