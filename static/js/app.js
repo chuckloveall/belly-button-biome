@@ -26,12 +26,12 @@ function init(data) {
     console.log(demoinfo);
     let demo2= d3.select("#sample-metadata").property("value")
     console.log(demo2);
-//     for(var j = 0; j < data.metadata.length; j++) {
-//         var me = data.metadata[j];
-//         var el = document.createElement("tb");
-//         el.textContent = me;
-//         el.value = me;
-//         demoinfo.appendChild(el)};
+    for(var j = 0; j < data.metadata.length; j++) {
+        var me = data.metadata[j];
+        var el = document.createElement("tr");
+        el.textContent = me;
+        el.value = me;
+        demoinfo.appendChild(el)};
 };
 function updateCharts(data, newValue) {
     //bar chart
@@ -74,6 +74,7 @@ Plotly.newPlot('bubble', trace1);
 // updatecharts(data,value)
 //allows you access to data outside of scope
 // This function is called when a dropdown menu item is selected
+//function findWithAttr found from Stack Overflow https://stackoverflow.com/questions/7176908/how-to-get-index-of-object-by-its-property-in-javascript
 function findWithAttr(array, attr, value) {
     for(var i = 0; i < array.length; i += 1) {
         if(array[i][attr] === value) {
