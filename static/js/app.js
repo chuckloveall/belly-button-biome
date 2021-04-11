@@ -22,8 +22,18 @@ function init(data) {
     updateCharts(data,0)
     let demo = data.metadata[0];
     console.log(demo);
+    let demoinfo = document.getElementById("sample-metadata")
+    console.log(demoinfo);
+    let demo2= d3.select("#sample-metadata").property("value")
+    console.log(demo2);
+//     for(var j = 0; j < data.metadata.length; j++) {
+//         var me = data.metadata[j];
+//         var el = document.createElement("tb");
+//         el.textContent = me;
+//         el.value = me;
+//         demoinfo.appendChild(el)};
 };
-function updateCharts(data, value) {
+function updateCharts(data, newValue) {
     //bar chart
     // let attempt = data.samples.map(v => v === value);
     // console.log(attempt);
@@ -53,17 +63,41 @@ function updateCharts(data, value) {
     size: sample_val
     }
 }];
-console.log(x);
+// console.log(x);
 // console.log(sample_val);
 // console.log(otu);
 Plotly.newPlot('bubble', trace1);
+
 };
 //use d3.json.then
 // init(data)
 // updatecharts(data,value)
 //allows you access to data outside of scope
 // This function is called when a dropdown menu item is selected
-function optionChanged(data) {
+function findWithAttr(array, attr, value) {
+    for(var i = 0; i < array.length; i += 1) {
+        if(array[i][attr] === value) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+function optionChanged(newValue) {
+    d3.json('samples.json').then(data => {
+    console.log(newValue);
+    let ans = [data.samples];
+    console.log(ans);
+    console.log(ans[0])
+    for (var j=0; j < ans.length; j =+1){
+    let newIndex= findWithAttr(ans[j], 'id', newValue)
+    if (newIndex !== -1)
+    {return newIndex
+    break}};
+    console.log(newIndex);
+    updateCharts(data, newValue)
+  });
+
   // Prevent the page from refreshing
   // d3.event.preventDefault();
   // Use D3 to select the dropdown menu
@@ -77,19 +111,20 @@ function optionChanged(data) {
   // console.log(dataset);
   // let bubble= d3.selectAll("#bubble").node();
   // console.log(bubble);
-  console.log(data)
-  console.log(data.samples)
+  // console.log(data)
+  // console.log(data.samples)
   //loop through samples
+
   //check if sample.id === opt 2
   // return sample
-  for(var n=0; n< data.samples.length;n++){
-      let selection= data.samples[n];
-      if (selection.id === opt2) {
-        var s = selection;}
-      return s;
-      console.log(s);
-}
-console.log(s);
+//   for(var n=0; n< data.samples.length;n++){
+//       let selection= data.samples[n];
+//       if (selection.id === opt2) {
+//         var s = selection;}
+//       return s;
+//       console.log(s);
+// }
+// console.log(s);
   // console.log(value);
 // switch from dataset
 // TODO: change dataset and nest loop index
@@ -116,7 +151,6 @@ console.log(s);
 d3.json('samples.json').then(data => {
     // console.log(data);
     init(data)
-    optionChanged(data)
     updateCharts(data)
 
 });
